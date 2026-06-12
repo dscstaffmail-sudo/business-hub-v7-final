@@ -1,12 +1,309 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Business Hub v7 Enterprise</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Hub v7 Enterprise - å®å¨ç</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #root { height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif; }
+    body { background: #F4F6FA; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal { background: #FFF; borderRadius: 20px; padding: 32px; width: 100%; maxWidth: 500px; maxHeight: 90vh; overflow: auto; boxShadow: 0 25px 60px rgba(0,0,0,.15); }
+    input, textarea, select { padding: 10px 14px; borderRadius: 10px; border: 1px solid #E2E8F0; fontSize: 14px; fontFamily: inherit; width: 100%; marginBottom: 12px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+
+    function App() {
+      const [view, setView] = useState("dashboard");
+      const [modal, setModal] = useState(null);
+      const [formData, setFormData] = useState({});
+
+      const [deals] = useState([
+        { id: "d1", name: "ããã«ã°ã©ã³ã´ã£ã¢ ç§å­£æ´¾é£", amount: 5000000, stage: "åè«", probability: 80, assignee: "æ¾æ°¸" },
+        { id: "d2", name: "ã¦ã§ã¹ãã£ã³ éå¹´å¥ç´", amount: 10000000, stage: "å¥ç´", probability: 100, assignee: "æ¾æ°¸" },
+        { id: "d3", name: "æ°è¦ããã«ãã§ã¼ã³æ¡å¤§", amount: 3000000, stage: "ææ¡", probability: 45, assignee: "ç°ä¸­" },
+        { id: "d4", name: "ã¬ã¹ãã©ã³æ±äººç´¹ä»", amount: 800000, stage: "å®äº", probability: 100, assignee: "ä½è¤" },
+      ]);
+
+      const [clients] = useState([
+        { id: "c1", company: "ããã«ã°ã©ã³ã´ã£ã¢äº¬é½", status: "åè«ä¸­", contacts: 2, projects: [
+          { id: "p1", name: "ç§å­£ããã«äººæç¢ºä¿", tasks: [
+            { id: "t1", title: "æ±äººç¥¨ä½æ", status: "å®äº", priority: "é«" },
+            { id: "t2", title: "åè£èãªã¹ãã¢ãã", status: "é²è¡ä¸­", priority: "é«" }
+          ]}
+        ]},
+        { id: "c2", company: "ã¦ã§ã¹ãã£ã³ããã«æ±äº¬", status: "å¥ç´ä¸­", contacts: 1, projects: [] },
+      ]);
+
+      const [users] = useState([
+        { id: "u1", username: "owner", role: "ãªã¼ãã¼" },
+        { id: "u2", username: "admin", role: "ç®¡çè" },
+        { id: "u3", username: "member", role: "ã¡ã³ãã¼" },
+      ]);
+
+      const [messages, setMessages] = useState([]);
+      const [rules] = useState([
+        { id: "r1", name: "ç¢ºåº¦80%ä»¥ä¸ã®æ¡ä»¶ãèªåãã©ã­ã¼ã¢ãã" },
+        { id: "r2", name: "ææ«ã«ãªã£ããéè¨ã¬ãã¼ããèªåä½æ" },
+      ]);
+
+      const handleSendMessage = () => {
+        if(formData.title && formData.recipients > 0) {
+          setMessages([...messages, { id: Date.now(), ...formData, sentAt: new Date().toLocaleString('ja-JP') }]);
+          setFormData({});
+          setModal(null);
+        }
+      };
+
+      const NavBar = () => (
+        <nav style={{ width: 280, background: "linear-gradient(180deg, #0F172A, #1E293B)", color: "#F1F5F9", padding: "24px 20px", display: "flex", flexDirection: "column", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,.1)" }}>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "#3B82F6", marginBottom: 4, letterSpacing: ".08em" }}>DAIEI SERVICE</div>
+            <div style={{ fontSize: 14, fontWeight: 800 }}>Business Hub</div>
+            <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>v7 Enterprise</div>
+          </div>
+          <div style={{ flex: 1 }}>
+            {[
+              { key: "dashboard", label: "ð ããããã¼ã¸" },
+              { key: "pipeline", label: "ð¯ ãã¤ãã©ã¤ã³" },
+              { key: "clients", label: "ð¢ ã¯ã©ã¤ã¢ã³ã" },
+              { key: "projects", label: "ð ãã­ã¸ã§ã¯ã" },
+              { key: "schedule", label: "ð ã¹ã±ã¸ã¥ã¼ã«" },
+              { key: "dm", label: "ð¤ DMéä¿¡" },
+              { key: "analytics", label: "ð åæã»ã¬ãã¼ã" },
+              { key: "users", label: "ð¥ ã¦ã¼ã¶ã¼ç®¡ç" },
+              { key: "automation", label: "âï¸ èªåå" },
+            ].map(item => (
+              <div key={item.key} onClick={() => setView(item.key)} style={{ padding: "12px 16px", cursor: "pointer", background: view === item.key ? "rgba(59, 130, 246, 0.15)" : "transparent", borderLeft: view === item.key ? "3px solid #3B82F6" : "3px solid transparent", marginBottom: 8, borderRadius: 6, fontSize: 12, fontWeight: view === item.key ? 600 : 400, color: view === item.key ? "#F1F5F9" : "#94A3B8", transition: "all .2s" }}>
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </nav>
+      );
+
+      return (
+        <div style={{ display: "flex", height: "100vh" }}>
+          <NavBar />
+          
+          <main style={{ flex: 1, overflow: "auto", padding: 28, background: "#FFF" }}>
+            {view === "dashboard" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8, color: "#0F172A" }}>ð ããããã¼ã¸</h1>
+                <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 28 }}>ããããããªã¼ãã¼ãã</p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 28 }}>
+                  {[
+                    { label: "å½æå£²ä¸", value: "Â¥18.8M", color: "#10B981" },
+                    { label: "åè«ä¸­", value: "1ä»¶", color: "#3B82F6" },
+                    { label: "æç´æ°", value: "1ä»¶", color: "#8B5CF6" },
+                    { label: "å¹³åç¢ºåº¦", value: "81%", color: "#F59E0B" },
+                  ].map((item, i) => (
+                    <div key={i} style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9", padding: 20 }}>
+                      <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 8 }}>{item.label}</div>
+                      <div style={{ fontSize: 24, fontWeight: 800, color: item.color }}>{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {view === "pipeline" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¯ å¶æ¥­ãã¤ãã©ã¤ã³</h1>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }}>
+                  {["ææ¡", "åè«", "å¥ç´", "å®äº"].map(stage => {
+                    const stageDeals = deals.filter(d => d.stage === stage);
+                    return (
+                      <div key={stage} style={{ background: "#F8FAFC", borderRadius: 14, padding: 16 }}>
+                        <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>{stage}</h3>
+                        <div style={{ fontSize: 12, color: "#64748B", marginBottom: 12 }}>{stageDeals.length}ä»¶</div>
+                        {stageDeals.map(deal => (
+                          <div key={deal.id} style={{ background: "#FFF", padding: 10, borderRadius: 8, marginBottom: 6, border: `2px solid ${deal.probability > 70 ? "#22C55E" : "#F59E0B"}`, fontSize: 11, fontWeight: 600 }}>
+                            {deal.name}
+                            <div style={{ fontSize: 10, color: "#64748B", marginTop: 4 }}>Â¥{(deal.amount/1000000).toFixed(1)}M</div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {view === "clients" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¢ ã¯ã©ã¤ã¢ã³ãç®¡ç</h1>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
+                  {clients.map(c => (
+                    <div key={c.id} style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9", padding: 20 }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>{c.company}</h3>
+                      <div style={{ fontSize: 12, color: "#64748B" }}>ã¹ãã¼ã¿ã¹: <strong>{c.status}</strong></div>
+                      <div style={{ fontSize: 12, color: "#64748B" }}>é£çµ¡å: {c.contacts}å</div>
+                      <div style={{ fontSize: 12, color: "#64748B" }}>ãã­ã¸ã§ã¯ã: {c.projects.length}ä»¶</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {view === "projects" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð ãã­ã¸ã§ã¯ãã»ã¿ã¹ã¯ç®¡ç</h1>
+                {clients.filter(c => c.projects.length > 0).map(c => (
+                  <div key={c.id} style={{ marginBottom: 20 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 12 }}>{c.company}</h3>
+                    {c.projects.map(p => (
+                      <div key={p.id} style={{ background: "#F8FAFC", borderRadius: 12, padding: 16, marginBottom: 12 }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>{p.name}</h4>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+                          {["æªçæ", "é²è¡ä¸­", "å®äº"].map(status => {
+                            const tasks = p.tasks.filter(t => t.status === status);
+                            return (
+                              <div key={status} style={{ background: "#FFF", padding: 12, borderRadius: 8 }}>
+                                <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>{status}</div>
+                                {tasks.map(task => (
+                                  <div key={task.id} style={{ fontSize: 11, padding: 6, background: "#F1F5F9", borderRadius: 4, marginBottom: 4 }}>
+                                    {task.title}
+                                  </div>
+                                ))}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {view === "schedule" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð ã¹ã±ã¸ã¥ã¼ã«ç®¡ç</h1>
+                <div style={{ background: "#F8FAFC", borderRadius: 16, border: "1px solid #E2E8F0", padding: 20 }}>
+                  <p style={{ color: "#94A3B8" }}>ð Google Calendar é£æº</p>
+                  <p style={{ fontSize: 12, color: "#64748B", marginTop: 12 }}>å¨ãã¼ã ã¡ã³ãã¼ã®ã¹ã±ã¸ã¥ã¼ã«åæ</p>
+                  <div style={{ marginTop: 16, padding: 12, background: "#FFF", borderRadius: 8, border: "1px solid #E2E8F0" }}>
+                    <div style={{ fontSize: 12, color: "#3B82F6", fontWeight: 600 }}>ã¦ã¼ã¶ã¼ {users.length}åã®ã«ã¬ã³ãã¼ãçµ±åè¡¨ç¤º</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {view === "dm" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¤ DMéä¿¡</h1>
+                <button onClick={() => setModal("sendDM")} style={{ padding: "10px 20px", background: "#3B82F6", color: "#FFF", border: "none", borderRadius: 10, fontWeight: 600, cursor: "pointer", marginBottom: 20, fontFamily: "inherit" }}>ð¨ æ°è¦ã¡ãã»ã¼ã¸</button>
+                
+                {messages.length > 0 && (
+                  <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
+                    {messages.map(msg => (
+                      <div key={msg.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9" }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>{msg.title}</h4>
+                        <div style={{ fontSize: 12, color: "#64748B" }}>
+                          éä¿¡å: {msg.recipients}ç¤¾ | éä¿¡æ¥æ: {msg.sentAt}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {view === "analytics" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð åæã»ã¬ãã¼ã</h1>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                  <div style={{ padding: 16, background: "linear-gradient(135deg,#EFF6FF,#E0E7FF)", borderRadius: 12 }}>
+                    <div style={{ fontSize: 12, color: "#1E40AF", fontWeight: 600, marginBottom: 8 }}>ç·åå¼é¡</div>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: "#3B82F6" }}>Â¥{(deals.reduce((sum, d) => sum + d.amount, 0) / 1000000).toFixed(1)}M</div>
+                  </div>
+                  <div style={{ padding: 16, background: "linear-gradient(135deg,#F0FDF4,#DCFCE7)", borderRadius: 12 }}>
+                    <div style={{ fontSize: 12, color: "#166534", fontWeight: 600, marginBottom: 8 }}>æç´æ¡ä»¶æ°</div>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: "#22C55E" }}>{deals.filter(d => d.stage === "å®äº").length}ä»¶</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {view === "users" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¥ ã¦ã¼ã¶ã¼ç®¡ç</h1>
+                <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
+                  {users.map(u => (
+                    <div key={u.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 600 }}>{u.username}</div>
+                        <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>å½¹å²: {u.role}</div>
+                      </div>
+                      <div style={{ fontSize: 12, color: "#94A3B8" }}>{u.role}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {view === "automation" && (
+              <div>
+                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>âï¸ èªååã«ã¼ã«è¨­å®</h1>
+                <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
+                  {rules.map(r => (
+                    <div key={r.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9", display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#22C55E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <span style={{ color: "#FFF", fontSize: 12, fontWeight: 700 }}>â</span>
+                      </div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{r.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </main>
+
+          {modal === "sendDM" && (
+            <div className="modal-overlay" onClick={() => setModal(null)}>
+              <div className="modal" onClick={e => e.stopPropagation()}>
+                <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, color: "#0F172A" }}>ð¨ æ°è¦ã¡ãã»ã¼ã¸</h2>
+                <input 
+                  placeholder="ä»¶å" 
+                  value={formData.title || ""} 
+                  onChange={e => setFormData({...formData, title: e.target.value})} 
+                />
+                <textarea 
+                  placeholder="æ¬æ" 
+                  rows="4"
+                  value={formData.body || ""} 
+                  onChange={e => setFormData({...formData, body: e.target.value})} 
+                  style={{ resize: "vertical", marginBottom: 12 }}
+                />
+                <input 
+                  type="number" 
+                  placeholder="éä¿¡åï¼ç¤¾æ°ï¼" 
+                  value={formData.recipients || ""} 
+                  onChange={e => setFormData({...formData, recipients: parseInt(e.target.value)})} 
+                />
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button onClick={() => setModal(null)} style={{ flex: 1, padding: "10px", background: "#E2E8F0", color: "#475569", border: "none", borderRadius: 8, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>ã­ã£ã³ã»ã«</button>
+                  <button onClick={handleSendMessage} style={{ flex: 1, padding: "10px", background: "#3B82F6", color: "#FFF", border: "none", borderRadius: 8, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>éä¿¡</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    root.render(<App />);
+  </script>
+</body>
 </html>
