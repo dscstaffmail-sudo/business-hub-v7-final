@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Hub v7 Enterprise - å®å¨ç</title>
+  <title>Business Hub v7 Enterprise - 完全版</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -29,32 +29,32 @@
       const [formData, setFormData] = useState({});
 
       const [deals] = useState([
-        { id: "d1", name: "ããã«ã°ã©ã³ã´ã£ã¢ ç§å­£æ´¾é£", amount: 5000000, stage: "åè«", probability: 80, assignee: "æ¾æ°¸" },
-        { id: "d2", name: "ã¦ã§ã¹ãã£ã³ éå¹´å¥ç´", amount: 10000000, stage: "å¥ç´", probability: 100, assignee: "æ¾æ°¸" },
-        { id: "d3", name: "æ°è¦ããã«ãã§ã¼ã³æ¡å¤§", amount: 3000000, stage: "ææ¡", probability: 45, assignee: "ç°ä¸­" },
-        { id: "d4", name: "ã¬ã¹ãã©ã³æ±äººç´¹ä»", amount: 800000, stage: "å®äº", probability: 100, assignee: "ä½è¤" },
+        { id: "d1", name: "ホテルグランヴィア 秋季派遣", amount: 5000000, stage: "商談", probability: 80, assignee: "松永" },
+        { id: "d2", name: "ウェスティン 通年契約", amount: 10000000, stage: "契約", probability: 100, assignee: "松永" },
+        { id: "d3", name: "新規ホテルチェーン拡大", amount: 3000000, stage: "提案", probability: 45, assignee: "田仭" },
+        { id: "d4", name: "レストラン求人紹介", amount: 800000, stage: "完了", probability: 100, assignee: "佐藤" },
       ]);
 
       const [clients] = useState([
-        { id: "c1", company: "ããã«ã°ã©ã³ã´ã£ã¢äº¬é½", status: "åè«ä¸­", contacts: 2, projects: [
-          { id: "p1", name: "ç§å­£ããã«äººæç¢ºä¿", tasks: [
-            { id: "t1", title: "æ±äººç¥¨ä½æ", status: "å®äº", priority: "é«" },
-            { id: "t2", title: "åè£èãªã¹ãã¢ãã", status: "é²è¡ä¸­", priority: "é«" }
+        { id: "c1", company: "ホテルグランヴィア京都", status: "商談中", contacts: 2, projects: [
+          { id: "p1", name: "秋季ホテル人材確保", tasks: [
+            { id: "t1", title: "求人票作成", status: "完了", priority: "高" },
+            { id: "t2", title: "候補者リストアップ", status: "進行仭", priority: "高" }
           ]}
         ]},
-        { id: "c2", company: "ã¦ã§ã¹ãã£ã³ããã«æ±äº¬", status: "å¥ç´ä¸­", contacts: 1, projects: [] },
+        { id: "c2", company: "ウェスティンホテル東京", status: "契約中", contacts: 1, projects: [] },
       ]);
 
       const [users] = useState([
-        { id: "u1", username: "owner", role: "ãªã¼ãã¼" },
-        { id: "u2", username: "admin", role: "ç®¡çè" },
-        { id: "u3", username: "member", role: "ã¡ã³ãã¼" },
+        { id: "u1", username: "owner", role: "オーナー" },
+        { id: "u2", username: "admin", role: "管理者" },
+        { id: "u3", username: "member", role: "メンバー" },
       ]);
 
       const [messages, setMessages] = useState([]);
       const [rules] = useState([
-        { id: "r1", name: "ç¢ºåº¦80%ä»¥ä¸ã®æ¡ä»¶ãèªåãã©ã­ã¼ã¢ãã" },
-        { id: "r2", name: "ææ«ã«ãªã£ããéè¨ã¬ãã¼ããèªåä½æ" },
+        { id: "r1", name: "確度80%以上の案件を自動フォローアップ" },
+        { id: "r2", name: "月末になったら集計レポートを自動作成" },
       ]);
 
       const handleSendMessage = () => {
@@ -64,245 +64,9 @@
           setModal(null);
         }
       };
-
-      const NavBar = () => (
-        <nav style={{ width: 280, background: "linear-gradient(180deg, #0F172A, #1E293B)", color: "#F1F5F9", padding: "24px 20px", display: "flex", flexDirection: "column", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,.1)" }}>
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "#3B82F6", marginBottom: 4, letterSpacing: ".08em" }}>DAIEI SERVICE</div>
-            <div style={{ fontSize: 14, fontWeight: 800 }}>Business Hub</div>
-            <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>v7 Enterprise</div>
-          </div>
-          <div style={{ flex: 1 }}>
-            {[
-              { key: "dashboard", label: "ð ããããã¼ã¸" },
-              { key: "pipeline", label: "ð¯ ãã¤ãã©ã¤ã³" },
-              { key: "clients", label: "ð¢ ã¯ã©ã¤ã¢ã³ã" },
-              { key: "projects", label: "ð ãã­ã¸ã§ã¯ã" },
-              { key: "schedule", label: "ð ã¹ã±ã¸ã¥ã¼ã«" },
-              { key: "dm", label: "ð¤ DMéä¿¡" },
-              { key: "analytics", label: "ð åæã»ã¬ãã¼ã" },
-              { key: "users", label: "ð¥ ã¦ã¼ã¶ã¼ç®¡ç" },
-              { key: "automation", label: "âï¸ èªåå" },
-            ].map(item => (
-              <div key={item.key} onClick={() => setView(item.key)} style={{ padding: "12px 16px", cursor: "pointer", background: view === item.key ? "rgba(59, 130, 246, 0.15)" : "transparent", borderLeft: view === item.key ? "3px solid #3B82F6" : "3px solid transparent", marginBottom: 8, borderRadius: 6, fontSize: 12, fontWeight: view === item.key ? 600 : 400, color: view === item.key ? "#F1F5F9" : "#94A3B8", transition: "all .2s" }}>
-                {item.label}
-              </div>
-            ))}
-          </div>
-        </nav>
-      );
-
-      return (
-        <div style={{ display: "flex", height: "100vh" }}>
-          <NavBar />
-          
-          <main style={{ flex: 1, overflow: "auto", padding: 28, background: "#FFF" }}>
-            {view === "dashboard" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8, color: "#0F172A" }}>ð ããããã¼ã¸</h1>
-                <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 28 }}>ããããããªã¼ãã¼ãã</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 28 }}>
-                  {[
-                    { label: "å½æå£²ä¸", value: "Â¥18.8M", color: "#10B981" },
-                    { label: "åè«ä¸­", value: "1ä»¶", color: "#3B82F6" },
-                    { label: "æç´æ°", value: "1ä»¶", color: "#8B5CF6" },
-                    { label: "å¹³åç¢ºåº¦", value: "81%", color: "#F59E0B" },
-                  ].map((item, i) => (
-                    <div key={i} style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9", padding: 20 }}>
-                      <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 8 }}>{item.label}</div>
-                      <div style={{ fontSize: 24, fontWeight: 800, color: item.color }}>{item.value}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {view === "pipeline" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¯ å¶æ¥­ãã¤ãã©ã¤ã³</h1>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }}>
-                  {["ææ¡", "åè«", "å¥ç´", "å®äº"].map(stage => {
-                    const stageDeals = deals.filter(d => d.stage === stage);
-                    return (
-                      <div key={stage} style={{ background: "#F8FAFC", borderRadius: 14, padding: 16 }}>
-                        <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>{stage}</h3>
-                        <div style={{ fontSize: 12, color: "#64748B", marginBottom: 12 }}>{stageDeals.length}ä»¶</div>
-                        {stageDeals.map(deal => (
-                          <div key={deal.id} style={{ background: "#FFF", padding: 10, borderRadius: 8, marginBottom: 6, border: `2px solid ${deal.probability > 70 ? "#22C55E" : "#F59E0B"}`, fontSize: 11, fontWeight: 600 }}>
-                            {deal.name}
-                            <div style={{ fontSize: 10, color: "#64748B", marginTop: 4 }}>Â¥{(deal.amount/1000000).toFixed(1)}M</div>
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {view === "clients" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¢ ã¯ã©ã¤ã¢ã³ãç®¡ç</h1>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
-                  {clients.map(c => (
-                    <div key={c.id} style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9", padding: 20 }}>
-                      <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>{c.company}</h3>
-                      <div style={{ fontSize: 12, color: "#64748B" }}>ã¹ãã¼ã¿ã¹: <strong>{c.status}</strong></div>
-                      <div style={{ fontSize: 12, color: "#64748B" }}>é£çµ¡å: {c.contacts}å</div>
-                      <div style={{ fontSize: 12, color: "#64748B" }}>ãã­ã¸ã§ã¯ã: {c.projects.length}ä»¶</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {view === "projects" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð ãã­ã¸ã§ã¯ãã»ã¿ã¹ã¯ç®¡ç</h1>
-                {clients.filter(c => c.projects.length > 0).map(c => (
-                  <div key={c.id} style={{ marginBottom: 20 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 12 }}>{c.company}</h3>
-                    {c.projects.map(p => (
-                      <div key={p.id} style={{ background: "#F8FAFC", borderRadius: 12, padding: 16, marginBottom: 12 }}>
-                        <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>{p.name}</h4>
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
-                          {["æªçæ", "é²è¡ä¸­", "å®äº"].map(status => {
-                            const tasks = p.tasks.filter(t => t.status === status);
-                            return (
-                              <div key={status} style={{ background: "#FFF", padding: 12, borderRadius: 8 }}>
-                                <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>{status}</div>
-                                {tasks.map(task => (
-                                  <div key={task.id} style={{ fontSize: 11, padding: 6, background: "#F1F5F9", borderRadius: 4, marginBottom: 4 }}>
-                                    {task.title}
-                                  </div>
-                                ))}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {view === "schedule" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð ã¹ã±ã¸ã¥ã¼ã«ç®¡ç</h1>
-                <div style={{ background: "#F8FAFC", borderRadius: 16, border: "1px solid #E2E8F0", padding: 20 }}>
-                  <p style={{ color: "#94A3B8" }}>ð Google Calendar é£æº</p>
-                  <p style={{ fontSize: 12, color: "#64748B", marginTop: 12 }}>å¨ãã¼ã ã¡ã³ãã¼ã®ã¹ã±ã¸ã¥ã¼ã«åæ</p>
-                  <div style={{ marginTop: 16, padding: 12, background: "#FFF", borderRadius: 8, border: "1px solid #E2E8F0" }}>
-                    <div style={{ fontSize: 12, color: "#3B82F6", fontWeight: 600 }}>ã¦ã¼ã¶ã¼ {users.length}åã®ã«ã¬ã³ãã¼ãçµ±åè¡¨ç¤º</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {view === "dm" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¤ DMéä¿¡</h1>
-                <button onClick={() => setModal("sendDM")} style={{ padding: "10px 20px", background: "#3B82F6", color: "#FFF", border: "none", borderRadius: 10, fontWeight: 600, cursor: "pointer", marginBottom: 20, fontFamily: "inherit" }}>ð¨ æ°è¦ã¡ãã»ã¼ã¸</button>
-                
-                {messages.length > 0 && (
-                  <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
-                    {messages.map(msg => (
-                      <div key={msg.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9" }}>
-                        <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>{msg.title}</h4>
-                        <div style={{ fontSize: 12, color: "#64748B" }}>
-                          éä¿¡å: {msg.recipients}ç¤¾ | éä¿¡æ¥æ: {msg.sentAt}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {view === "analytics" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð åæã»ã¬ãã¼ã</h1>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                  <div style={{ padding: 16, background: "linear-gradient(135deg,#EFF6FF,#E0E7FF)", borderRadius: 12 }}>
-                    <div style={{ fontSize: 12, color: "#1E40AF", fontWeight: 600, marginBottom: 8 }}>ç·åå¼é¡</div>
-                    <div style={{ fontSize: 28, fontWeight: 800, color: "#3B82F6" }}>Â¥{(deals.reduce((sum, d) => sum + d.amount, 0) / 1000000).toFixed(1)}M</div>
-                  </div>
-                  <div style={{ padding: 16, background: "linear-gradient(135deg,#F0FDF4,#DCFCE7)", borderRadius: 12 }}>
-                    <div style={{ fontSize: 12, color: "#166534", fontWeight: 600, marginBottom: 8 }}>æç´æ¡ä»¶æ°</div>
-                    <div style={{ fontSize: 28, fontWeight: 800, color: "#22C55E" }}>{deals.filter(d => d.stage === "å®äº").length}ä»¶</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {view === "users" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>ð¥ ã¦ã¼ã¶ã¼ç®¡ç</h1>
-                <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
-                  {users.map(u => (
-                    <div key={u.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div>
-                        <div style={{ fontSize: 14, fontWeight: 600 }}>{u.username}</div>
-                        <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>å½¹å²: {u.role}</div>
-                      </div>
-                      <div style={{ fontSize: 12, color: "#94A3B8" }}>{u.role}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {view === "automation" && (
-              <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 20, color: "#0F172A" }}>âï¸ èªååã«ã¼ã«è¨­å®</h1>
-                <div style={{ background: "#FFF", borderRadius: 16, border: "1px solid #F1F5F9" }}>
-                  {rules.map(r => (
-                    <div key={r.id} style={{ padding: 16, borderBottom: "1px solid #F1F5F9", display: "flex", alignItems: "center", gap: 12 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#22C55E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <span style={{ color: "#FFF", fontSize: 12, fontWeight: 700 }}>â</span>
-                      </div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{r.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </main>
-
-          {modal === "sendDM" && (
-            <div className="modal-overlay" onClick={() => setModal(null)}>
-              <div className="modal" onClick={e => e.stopPropagation()}>
-                <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, color: "#0F172A" }}>ð¨ æ°è¦ã¡ãã»ã¼ã¸</h2>
-                <input 
-                  placeholder="ä»¶å" 
-                  value={formData.title || ""} 
-                  onChange={e => setFormData({...formData, title: e.target.value})} 
-                />
-                <textarea 
-                  placeholder="æ¬æ" 
-                  rows="4"
-                  value={formData.body || ""} 
-                  onChange={e => setFormData({...formData, body: e.target.value})} 
-                  style={{ resize: "vertical", marginBottom: 12 }}
-                />
-                <input 
-                  type="number" 
-                  placeholder="éä¿¡åï¼ç¤¾æ°ï¼" 
-                  value={formData.recipients || ""} 
-                  onChange={e => setFormData({...formData, recipients: parseInt(e.target.value)})} 
-                />
-                <div style={{ display: "flex", gap: 10 }}>
-                  <button onClick={() => setModal(null)} style={{ flex: 1, padding: "10px", background: "#E2E8F0", color: "#475569", border: "none", borderRadius: 8, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>ã­ã£ã³ã»ã«</button>
-                  <button onClick={handleSendMessage} style={{ flex: 1, padding: "10px", background: "#3B82F6", color: "#FFF", border: "none", borderRadius: 8, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>éä¿¡</button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      );
+      const NavBar = () => (<nav style={{ width: 280, background: "linear-gradient(180deg, #0F172A, #1E293B)", color: "#F1F5F9", padding: "24px 20px", display: "flex", flexDirection: "column", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,.1)" }}><div style={{ marginBottom: 24 }}><div style={{ fontSize: 10, fontWeight: 700, color: "#3B82F6", marginBottom: 4, letterSpacing: ".08em" }}>DAIEI SERVICE</div><div style={{ fontSize: 14, fontWeight: 800 }}>Business Hub</div><div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>v7 Enterprise</div></div><div style={{ flex: 1 }}>{[{{key: "dashboard", label: "📊 トップページ"},{key: "pipeline", label: "🎯 パイプライン"},{key: "clients", label: "🏢 クライアント"},{key: "projects", label: "📁 プロジェクト"},{key: "schedule", label: "📅 スケジュール"},{key: "dm", label: "📤 DM送信"},{key: "analytics", label: "📈 分析・レポート"},{key: "users", label: "👩 member"},{key: "automation", label: "⚙️ auto"}].map(item => (<div key={item.key} onClick={() => setView(item.key)} style={{ padding: "12px 16px", cursor: "pointer", background: view === item.key ? "rgba(59, 130, 246, 0.15)" : "transparent", borderLeft: view === item.key ? "3px solid #3B82F6" : "3px solid transparent", marginBottom: 8, borderRadius: 6, fontSize: 12, fontWeight: view === item.key ? 600 : 400, color: view === item.key ? "#F1F5F9" : "#94A3B8" }}>{item.label}</div>))}</div></nav>);
+      return (<div style={{ display: "flex", height: "100vh" }}><NavBar /><main style={{ flex: 1, overflow: "auto", padding: 28, background: "#FFF" }}>{view === "dashboard" && (<div><h1 style={{ fontSize: 28, fontWeight: 800 }}>📊 トップページ</h1><div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, margin: "20px 0" }}>{[{label: "売上", value: "¥18.8M", color: "#10B981"},{label: "商談", value: "1件", color: "#3B82F6"},{label: "成約", value: "1件", color: "#8B5CF6"},{label: "確度", value: "81%", color: "#F59E0B"}].map((i,k)=>(<div key={k} style={{background:"#FFF",borderRadius:16,border:"1px solid #F1F5F9",padding:20}}><div style={{fontSize:12,color:"#94A3B8",marginBottom:8}}>{i.label}</div><div style={{fontSize:24,fontWeight:800,color:i.color}}>{i.value}</div></div>))}</div></div>)}{view === "pipeline" && (<div><h1 style={{fontSize:28,fontWeight:800}}>🎯 パイプライン</h1><div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:14}}>{["提案","商諗","契約","完了"].map(s=>(<div key={s} style={{background:"#F8FAFC",borderRadius:14,padding:16}}><h3 style={{fontSize:14,fontWeight:700}}>{s}</h3>{deals.filter(d=>d.stage===s).map(d=>(<div key={d.id} style={{background:"#FFF",padding:10,borderRadius:8,marginTop:6,border:`2px solid ${d.probability>70?"#22C55E":"#F59E0B"}`,fontSize:11}}>{d.name}</div>))}</div>))}</div></div>)}{view==="clients"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>🏢 クライアント</h1>{clients.map(c=>(<div key={c.id} style={{background:"#FFF",borderRadius:16,border:"1px solid #F1F5F9",padding:20,marginBottom:12}}><h3 style={{fontSize:15}}>{c.company}</h3><p>{c.status} / 連絡: {c.contacts}名</p></div>))}</div>)}{view==="projects"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>📁 プロジェクト</h1>{clients.filter(c=>c.projects.length>0).map(c=>(<div key={c.id} style={{marginBottom:20}}><h3 style={{fontSize:16}}>{c.company}</h3>{c.projects.map(p=>(<div key={p.id} style={{background:"#F8FAFC",padding:16,borderRadius:12}}><h4>{p.name}</h4><div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>{["未着手","進行中","完了"].map(st=>(<div key={st} style={{background:"#FFF",padding:12,borderRadius:8}}><div style={{fontWeight:600}}>{st}</div>{p.tasks.filter(t=>t.status===st).map(t=>(<div key={t.id} style={{fontSize:11,padding:4,background:"#F1F5F9",borderRadius:4,marginTop:4}}>{t.title}</div>))}</div>))}</div></div>))}</div>))}</div>)}{view==="schedule"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>📅 スケジュール</h1><div style={{background:"#F8FAFC",padding:20,borderRadius:16}}><p>🔗 Google Calendar 連携</p><p style={{fontSize:12,color:"#64748B"}}>ユーザー {users.length}名のカレンダーを統合表示</p></div></div>)}{view==="dm"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>📤 DM送信</h1><button onClick={()=>setModal("sendDM")} style={{padding:"10px 20px",background:"#3B82F6",color:"#FFF",border:"none",borderRadius:10,fontWeight:600,cursor:"pointer"}}>📨 新規メッセージ</button>{messages.length>0&&(<div style={{marginTop:20}}>{messages.map(m=>(<div key={m.id} style={{padding:12,background:"#F8FAFC",borderRadius:8,marginBottom:8}}><strong>{m.title}</strong><br/>{m.sentAt}</div>))}</div>)}</div>)}{view==="analytics"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>📈 分析</h1><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}><div style={{padding:16,background:"linear-gradient(135deg,#EFF6FF,#E0E7FF)",borderRadius:12}}><div style={{fontSize:12,color:"#1E40AF"}}>総取引額</div><div style={{fontSize:28,fontWeight:800,color:"#3B82F6"}}>¥{(deals.reduce((s,d)=>s+d.amount,0)/1e6).toFixed(1)}M</div></div><div style={{padding:16,background:"linear-gradient(135deg,#F0FDF4,#DCFCE7)",borderRadius:12}}><div style={{fontSize:12,color:"#166534"}}>成約</div><div style={{fontSize:28,fontWeight:800,color:"#22C55E"}}>{deals.filter(d=>d.stage==="完了").length}件</div></div></div></div>)}{view==="users"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>👩 member</h1>{users.map(u=>(<div key={u.id} style={{padding:16,borderBottom:"1px solid #F1F5F9",display:"flex",justifyContent:"space-between"}}><div><div style={{fontWeight:600}}>{u.username}</div><div style={{fontSize:12,color:"#64748B"}}>{u.role}</div></div></div>))}</div>)}{view==="automation"&&(<div><h1 style={{fontSize:28,fontWeight:800}}>⚩️ 自動化</h1>{rules.map(r=>(<div key={r.id} style={{padding:16,borderBottom:"1px solid #F1F5F9",display:"flex",alignItems:"center",gap:12}}><div style={{width:20,height:20,borderRadius:"50%",background:"#22C55E",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:"#FFF",fontSize:12}}>✓</span></div><div style={{fontWeight:600}}>{r.name}</div></div>))}</div>)}</main>{modal==="sendDM"&&(<div style={{position:"fixed",inset:0,background:"rgba(15,23,42,.6)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:1000}} onClick={()=>setModal(null)}><div style={{background:"#FFF",borderRadius:20,padding:32,width:500,maxHeight:"90vh",overflow:"auto"}} onClick={e=>e.stopPropagation()}><h2 style={{fontSize:18,fontWeight:700,marginBottom:20}}>📨 新規メッセージ</h2><input placeholder="件名" value={formData.title||""} onChange={e=>setFormData({...formData,title:e.target.value})} style={{width:"100%",padding:"10px 14px",borderRadius:10,border:"1px solid #E2E8F0",marginBottom:12,fontSize:14}}/><button onClick={()=>{if(formData.title){setMessages([...messages,{id:Date.now(),title:formData.title,sentAt:new Date().toLocaleString('ja-JP')}]);setFormData({});setModal(null)}}} style={{padding:"10px 20px",background:"#3B82F6",color:"#FFF",border:"none",borderRadius:8,fontWeight:600,cursor:"pointer"}}>送信</button></div></div>)}</div>);
     }
-
     root.render(<App />);
   </script>
 </body>
